@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/route_recommendation_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RouteRecommendationActivity"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/start_point_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <include
+            layout="@layout/global_back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical" />
+
+        <LinearLayout
+            android:id="@+id/start_point_selector_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_search_suggestion_dropdown"
+            android:layout_marginStart="56dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/start_point_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="请输入途径点"
+                android:inputType="text"
+                android:background="@android:color/transparent"
+                android:padding="8dp" />
+
+            <ImageButton
+                android:id="@+id/select_on_map_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_select_on_map"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                android:contentDescription="地图选点" />
+
+            <ImageButton
+                android:id="@+id/add_waypoint_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_add"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="添加途径点" />
+
+            <ImageButton
+                android:id="@+id/view_waypoints_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_list"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="查看途径点" />
+
+            <ImageButton
+                android:id="@+id/btn_save_route"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_favorite"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
+                android:contentDescription="收藏路线" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+    
+    <!-- 途径点菜单 (浮动层，需要特殊处理，这里暂时放在 FrameLayout 里或者使用 Dialog，但为了保持原样，我们将其包含在一个 RelativeLayout 容器里与地图共存) -->
+    <!-- 由于改为垂直线性布局，浮动菜单最好的方式是使用 FrameLayout 包裹地图和菜单 -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/preview_map_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
+
+            <com.amap.api.maps.MapView
+                android:id="@+id/preview_map_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.cardview.widget.CardView>
+        
+        <!-- 浮动的原有路径规划控制面板 (保留并调整位置) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/route_planning_controls"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="#CCFFFFFF"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageButton
+                    android:id="@+id/plan_drive_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_directions_car" 
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="驾车" />
+
+                <ImageButton
+                    android:id="@+id/plan_walk_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_directions_walk"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="步行" />
+                    
+                <ImageButton
+                    android:id="@+id/plan_ride_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_directions_bike"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="骑行" />
+
+                <ImageButton
+                    android:id="@+id/plan_bus_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_directions_bus"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="公交" />
+                    
+                <ImageButton
+                    android:id="@+id/plan_truck_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_local_shipping"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="货车" />
+
+                <ImageButton
+                    android:id="@+id/plan_ebike_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_electric_bike"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="电瓶车" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- 浮动的途径点菜单 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/waypoints_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="-8dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="#CCFFFFFF"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/waypoint_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp" />
+
+                <!-- TSP优化勾选框 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <!-- 与item_waypoint.xml样式一致: 外层padding 16dp + 内层padding 8dp -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <CheckBox
+                        android:id="@+id/cb_tsp_optimize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="最佳途径点组合"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
+
+    <!-- 路线详情卡片 (可折叠) - 新增 -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/route_details_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header: 点击折叠 -->
+            <LinearLayout
+                android:id="@+id/route_details_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="24dp"
+                    android:background="#2196F3"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="路线详情"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"/>
+
+                <ImageView
+                    android:id="@+id/route_details_toggle_arrow"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_up"/>
+
+            </LinearLayout>
+
+            <!-- Body: 内容区域 -->
+            <LinearLayout
+                android:id="@+id/route_details_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp">
+
+                <!-- 出行方式 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="出行方式:"
+                        android:textSize="14sp"
+                        android:textColor="#666666"/>
+                    <TextView
+                        android:id="@+id/tv_route_mode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+                <!-- 总路程 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="总路程:"
+                        android:textSize="14sp"
+                        android:textColor="#666666"/>
+                    <TextView
+                        android:id="@+id/tv_route_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#2196F3"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+                <!-- 预计时间 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="预计时间:"
+                        android:textSize="14sp"
+                        android:textColor="#666666"/>
+                    <TextView
+                        android:id="@+id/tv_route_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#FF9800"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+                <!-- 途经点数量 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="途经点数量:"
+                        android:textSize="14sp"
+                        android:textColor="#666666"/>
+                    <TextView
+                        android:id="@+id/tv_route_waypoints"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- 智能推荐卡片 (可折叠) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/intelligent_recommendation_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="#FFFFFF"> <!-- 淡蓝色背景以区分 -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Header: 点击折叠 -->
+            <LinearLayout
+                android:id="@+id/recommendation_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:background="?attr/selectableItemBackground">
+
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="24dp"
+                    android:background="#333333"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="智能推荐"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#333333"/>
+                
+                <ImageView
+                    android:id="@+id/recommendation_toggle_arrow"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_arrow_up"/> <!-- 需要创建 ic_arrow_up -->
+
+            </LinearLayout>
+
+            <!-- Body: 内容区域 -->
+            <LinearLayout
+                android:id="@+id/recommendation_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp">
+                
+                <!-- 左侧按钮组 -->
+                <LinearLayout
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="16dp">
+                    
+                    <Button
+                        android:id="@+id/btn_start_recommendation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="智能\n推荐"
+                        android:textSize="14sp"
+                        android:textColor="#FFFFFF"
+                        android:gravity="center"
+                        android:backgroundTint="#333333"
+                        android:layout_marginBottom="4dp"/>
+                    
+                    <Button
+                        android:id="@+id/btn_clear_recommendation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="清除\n记录"
+                        android:textSize="14sp"
+                        android:textColor="#333333"
+                        android:gravity="center"
+                        android:backgroundTint="#E0E0E0"/>
+                </LinearLayout>
+
+                <!-- 右侧参数表单 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- 1. 查找半径 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="查找半径:"
+                            android:textSize="14sp"/>
+                        <EditText
+                            android:id="@+id/et_search_radius"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="单位: 米"
+                            android:inputType="number"
+                            android:textSize="14sp"
+                            android:padding="8dp"
+                            android:background="@drawable/bg_search_suggestion_dropdown"
+                            android:layout_marginStart="8dp"/>
+                    </LinearLayout>
+
+                    <!-- 2. 查找类别 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="8dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="查找类别:"
+                            android:textSize="14sp"/>
+                        <Spinner
+                            android:id="@+id/spinner_search_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:minHeight="40dp"
+                            android:background="@drawable/bg_search_suggestion_dropdown"/>
+                    </LinearLayout>
+
+                    <!-- 3. 查询对象 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="查询对象:"
+                            android:textSize="14sp"/>
+                        <Spinner
+                            android:id="@+id/spinner_search_target"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:minHeight="40dp"
+                            android:background="@drawable/bg_search_suggestion_dropdown"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <include
+        layout="@layout/bottom_nav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="32dp" />
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+# Android Studio / Gradle
+*.iml
+.gradle/
+.idea/
+local.properties
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Signing material
+*.jks
+*.keystore
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
+# Local agent tooling
+.agents/
+.specify/
+.codegraph/
+AGENTS.md
+
+# Course submission and development records (contain personal information)
+Java程序设计-试卷2025-2026-1-A.*
+prompt.txt
+task.md
+developLog.md
+app/developLog.md
+
+# AMap SDK binaries: download from the official site instead of redistributing
+/amap/
+/libs/
+/app/src/main/jniLibs/

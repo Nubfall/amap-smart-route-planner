@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/search_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_search_bar_light"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/search_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="输入搜索地点" />
+
+            <Button
+                android:id="@+id/search_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索"
+                android:textColor="@color/on_primary_color_light"
+                app:strokeColor="@color/on_primary_color_light" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/layers_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_wrapper"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="图层"
+        android:textColor="@color/on_primary_color_light"
+        app:backgroundTint="#CCFFFFFF" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layers_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layers_button"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="#CCFFFFFF"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <RadioGroup
+                android:id="@+id/map_type_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/map_type_normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="标准"
+                    android:textColor="@color/on_primary_color_light"
+                    app:buttonTint="@color/radio_button_tint_selector" />
+
+                <RadioButton
+                    android:id="@+id/map_type_satellite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="卫星"
+                    android:textColor="@color/on_primary_color_light"
+                    app:buttonTint="@color/radio_button_tint_selector" />
+
+                <RadioButton
+                    android:id="@+id/map_type_night"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="夜间"
+                    android:textColor="@color/on_primary_color_light"
+                    app:buttonTint="@color/radio_button_tint_selector" />
+
+                <RadioButton
+                    android:id="@+id/map_type_navi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="导航"
+                    android:textColor="@color/on_primary_color_light"
+                    app:buttonTint="@color/radio_button_tint_selector" />
+            </RadioGroup>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/traffic_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="实时路况"
+                android:textColor="@color/on_primary_color_light" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <include
+        layout="@layout/custom_zoom_controls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp" />
+
+    <include layout="@layout/bottom_nav" />
+
+</RelativeLayout>

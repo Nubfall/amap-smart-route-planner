@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true" android:color="@color/on_primary_color_light" />
+    <item android:state_checked="false" android:color="@color/control_normal_light" />
+    <item android:color="@color/control_normal_light" />
+</selector>

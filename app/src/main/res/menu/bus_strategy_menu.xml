@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/strategy_bus_fastest"
+        android:title="最快捷" />
+    <item
+        android:id="@+id/strategy_bus_least_transfer"
+        android:title="最少换乘" />
+    <item
+        android:id="@+id/strategy_bus_least_walk"
+        android:title="最少步行" />
+    <item
+        android:id="@+id/strategy_bus_no_subway"
+        android:title="不乘地铁" />
+    <item
+        android:id="@+id/strategy_bus_save_money"
+        android:title="最经济" />
+</menu>

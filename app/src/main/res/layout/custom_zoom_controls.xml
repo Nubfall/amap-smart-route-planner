@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_zoom_controls"
+    android:padding="4dp">
+
+    <ImageButton
+        android:id="@+id/zoom_in_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_zoom_in"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#E0E0E0" />
+
+    <ImageButton
+        android:id="@+id/zoom_out_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_zoom_out"
+        android:background="?attr/selectableItemBackgroundBorderless" />
+
+</LinearLayout>
