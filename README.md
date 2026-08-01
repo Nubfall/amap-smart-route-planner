@@ -119,11 +119,6 @@ app/src/main/java/cn/edu/gzhu/amap/
 └── overlay/                         # 各出行方式的路线覆盖物
 ```
 
-## 安全与隐私
-
-- API Key 通过本地 `local.properties` 注入，不进入版本控制。
-- 课程试卷、姓名学号、开发提示与本地构建配置均已排除。
-- 高德 SDK 二进制文件未纳入仓库，请遵守高德开放平台的服务条款与许可要求。
 
 ## License
 
